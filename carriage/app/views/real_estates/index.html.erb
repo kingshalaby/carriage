@@ -1,0 +1,69 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Real Estates</h1>
+
+
+<%= form_tag real_estates_path, :method => 'get' do %>
+  <%= content_tag :label do %>
+    Street:
+    <%= text_field_tag :street, params[:street] %>
+  <% end %>
+  
+  type: <%= select_tag :category, options_for_select(RealEstate.categories.keys, params[:category]), include_blank: "ALL"  %>
+  Max price: <%= number_field_tag :price_max, params[:price_max] %>
+  Min price: <%= number_field_tag :price_min, params[:price_min] %>
+  <%= submit_tag "Search", class: "btn", name: nil %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Street</th>
+      <th>City</th>
+      <th>Zip</th>
+      <th>State</th>
+      <th>Beds</th>
+      <th>Baths</th>
+      <th>Sq ft</th>
+      <th>Category</th>
+      <th>Sale date</th>
+      <th>Price</th>
+      <th>Lat</th>
+      <th>Lng</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @real_estates.each do |real_estate| %>
+      <tr>
+        <td><%= real_estate.street %></td>
+        <td><%= real_estate.city %></td>
+        <td><%= real_estate.zip %></td>
+        <td><%= real_estate.state %></td>
+        <td><%= real_estate.beds %></td>
+        <td><%= real_estate.baths %></td>
+        <td><%= real_estate.sq_ft %></td>
+        <td><%= real_estate.category %></td>
+        <td><%= real_estate.sale_date %></td>
+        <td><%= real_estate.price %></td>
+        <td><%= real_estate.lat %></td>
+        <td><%= real_estate.lng %></td>
+        <td><%= link_to 'Show', real_estate %></td>
+        <td><%= link_to 'Edit', edit_real_estate_path(real_estate) %></td>
+        <td><%= link_to 'Destroy', real_estate, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<div class="digg_pagination">
+    <div class="page_info">
+      <%= page_entries_info @real_estates %>
+    </div>
+    <%= will_paginate @real_estates, :container => false %>
+  </div>
+
+<%= link_to 'New Real Estate', new_real_estate_path %>

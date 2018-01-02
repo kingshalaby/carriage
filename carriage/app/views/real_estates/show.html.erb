@@ -1,0 +1,64 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Street:</strong>
+  <%= @real_estate.street %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @real_estate.city %>
+</p>
+
+<p>
+  <strong>Zip:</strong>
+  <%= @real_estate.zip %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @real_estate.state %>
+</p>
+
+<p>
+  <strong>Beds:</strong>
+  <%= @real_estate.beds %>
+</p>
+
+<p>
+  <strong>Baths:</strong>
+  <%= @real_estate.baths %>
+</p>
+
+<p>
+  <strong>Sq ft:</strong>
+  <%= @real_estate.sq_ft %>
+</p>
+
+<p>
+  <strong>Category:</strong>
+  <%= @real_estate.category %>
+</p>
+
+<p>
+  <strong>Sale date:</strong>
+  <%= @real_estate.sale_date %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @real_estate.price %>
+</p>
+
+<p>
+  <strong>Lat:</strong>
+  <%= @real_estate.lat %>
+</p>
+
+<p>
+  <strong>Lng:</strong>
+  <%= @real_estate.lng %>
+</p>
+
+<%= link_to 'Edit', edit_real_estate_path(@real_estate) %> |
+<%= link_to 'Back', real_estates_path %>
