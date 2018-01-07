@@ -48,7 +48,7 @@
 
   <div class="field">
     <%= f.label :category %>
-    <%= f.select :category, real_estate.category.keys %>
+    <%= f.select :category, options_for_select(RealEstate.categories.keys, params[:category]) %>
   </div>
 
   <div class="field">

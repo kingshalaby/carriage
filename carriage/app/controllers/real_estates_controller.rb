@@ -4,6 +4,7 @@ class RealEstatesController < ApplicationController
   # GET /real_estates
   # GET /real_estates.json
   def index
+  
     @real_estates = RealEstate.all
     filtering_params(params).each do |key, value|
       @real_estates = @real_estates.public_send(key, value) if value.present?
@@ -73,10 +74,10 @@ class RealEstatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def real_estate_params
-      params.require(:real_estate).permit(:street, :city, :zip, :state, :beds, :baths, :sq_ft, :type, :sale_date, :price, :lat, :long)
+      params.require(:real_estate).permit(:street, :city, :zip, :state, :beds, :baths, :sq_ft, :category, :sale_date, :price, :lat, :lng)
     end
     
     def filtering_params(params)
-      params.slice(:category, :price_min, :price_max, :street)
+      params.slice(:category, :price_min, :price_max, :street, :sq_min, :sq_max)
     end
 end

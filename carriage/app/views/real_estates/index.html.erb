@@ -12,10 +12,12 @@
   type: <%= select_tag :category, options_for_select(RealEstate.categories.keys, params[:category]), include_blank: "ALL"  %>
   Max price: <%= number_field_tag :price_max, params[:price_max] %>
   Min price: <%= number_field_tag :price_min, params[:price_min] %>
+  Max sq_feet: <%= number_field_tag :sq_max, params[:sq_max], class: 'input-small' %>
+  Min sq_feet: <%= number_field_tag :sq_min, params[:sq_min] %>
   <%= submit_tag "Search", class: "btn", name: nil %>
 <% end %>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Street</th>
@@ -59,11 +61,11 @@
 
 <br>
 
-<div class="digg_pagination">
+<div class="flickr_pagination">
     <div class="page_info">
       <%= page_entries_info @real_estates %>
     </div>
     <%= will_paginate @real_estates, :container => false %>
   </div>
 
-<%= link_to 'New Real Estate', new_real_estate_path %>
+<%= link_to 'New Real Estate', new_real_estate_path, :class => "btn"  %>

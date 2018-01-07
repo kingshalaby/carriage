@@ -29,11 +29,11 @@ RSpec.describe RealEstatesController, type: :controller do
   # RealEstate. As you add validations to RealEstate, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    FactoryBot.build(:real_estate).attributes
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    FactoryBot.build(:real_estate, street: nil).attributes
   }
 
   # This should return the minimal set of values that should be in the session
@@ -42,11 +42,52 @@ RSpec.describe RealEstatesController, type: :controller do
   let(:valid_session) { {} }
 
   describe "GET #index" do
+  
+    before(:each) { 
+    
+      FactoryBot.create(:real_estate, category: "Condo", price: 55000, sq_ft: 150)
+      FactoryBot.create(:real_estate, category: "Residential", price: 90000, sq_ft: 300)
+      FactoryBot.create(:real_estate, category: "Residential", price: 120000, sq_ft: 5000) 
+    }
+    
     it "returns a success response" do
+    
       real_estate = RealEstate.create! valid_attributes
       get :index, params: {}, session: valid_session
       expect(response).to be_success
     end
+    
+    it "returns paginated results" do 
+      30.times {FactoryBot.create(:real_estate)}
+      get :index, params: {}, session: valid_session
+      expect(assigns(:real_estates).length).to eq RealEstate.per_page
+    end
+    
+    it "filters according to category" do
+      get :index, params: {}, session: valid_session
+      expect(assigns(:real_estates).count).to eq 3
+      
+      get :index, params: {category: "Residential"}, session: valid_session
+      expect(assigns(:real_estates).count).to eq 2
+    end
+    
+    
+    it "filters according to price" do
+      
+      
+      get :index, params: {}, session: valid_session
+      expect(assigns(:real_estates).count).to eq 3
+      
+      get :index, params: {price_min: 60000}, session: valid_session
+      expect(assigns(:real_estates).count).to eq 2
+      
+      get :index, params: {price_max: 100000}, session: valid_session
+      expect(assigns(:real_estates).count).to eq 2
+      
+      get :index, params: {price_min: 60000, price_max: 100000}, session: valid_session
+      expect(assigns(:real_estates).count).to eq 1
+    end
+    
   end
 
   describe "GET #show" do
@@ -97,14 +138,14 @@ RSpec.describe RealEstatesController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        FactoryBot.build(:real_estate).attributes
       }
 
       it "updates the requested real_estate" do
         real_estate = RealEstate.create! valid_attributes
         put :update, params: {id: real_estate.to_param, real_estate: new_attributes}, session: valid_session
         real_estate.reload
-        skip("Add assertions for updated state")
+        
       end
 
       it "redirects to the real_estate" do
